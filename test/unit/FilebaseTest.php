@@ -4,10 +4,9 @@
  * and open the template in the editor.
  */
 include(dirname(__FILE__).'/../bootstrap/unit.php');
-
 try
 {
-  $t = new lime_test(64, new lime_output_color());
+  $t = new lime_test(82, new lime_output_color());
   $t->diag('Ok, let\'s take a look... These tests are as incomplete as tests can be.');
   $t->diag('Any exeptions thrown during testrun may cause in file-permission issues. After a test-run failed, please manually clean up the standard-filebase-directory unter sfConfig::get(sf_upload_dir) and run php ./symfony fix-perms task as a system administrator.');
 
@@ -100,6 +99,40 @@ try
   $t->isa_ok($i2->thumbnail(10, 10), 'sfFilebasePluginImage', 'Image transform (thumbnail) successful, assuming all transforms work.');
   $t->isa_ok($i2->save(), 'sfFilebasePluginImage', 'Thumbnail successfully saved');
   $t->ok(strlen(($str = $i2->getBinaryString())) > 0, "The resulting image stream: \r\n" . $str);
+
+  ## TEST THE UTILS
+  $t->diag('sfFilebasePluginUtil::isAbsolutePathname()');
+  $t->ok(sfFilebasePluginUtil::isAbsolutePathname('/hanswurst'));
+  $t->ok(sfFilebasePluginUtil::isAbsolutePathname('/hanswurst/kaese'));
+  $t->ok(sfFilebasePluginUtil::isAbsolutePathname('c:/hanswurst/kaese'));
+  $t->ok(sfFilebasePluginUtil::isAbsolutePathname('c:/hanswurst'));
+  $t->ok(sfFilebasePluginUtil::isAbsolutePathname('c:\\hanswurst\\kaese'));
+  $t->ok(sfFilebasePluginUtil::isAbsolutePathname('c:\\hanswurst\\kaese'));
+
+  $t->diag('sfFilebasePluginUtil::realpath()');
+  $t->ok($p = sfFilebasePluginUtil::realpath('/hanswurst'), $p);
+  $t->ok($p = sfFilebasePluginUtil::realpath('/hanswurst/kaese'), $p);
+  $t->ok($p = sfFilebasePluginUtil::realpath('c:/hanswurst/kaese'), $p);
+  $t->ok($p = sfFilebasePluginUtil::realpath('c:/hanswurst'), $p);
+  $t->ok($p = sfFilebasePluginUtil::realpath('c:\\hanswurst\\kaese'), $p);
+  $t->ok($p = sfFilebasePluginUtil::realpath('c:\\hanswurst\\kaese'), $p);
+  $t->ok(!$p = sfFilebasePluginUtil::realpath('c:\\..\\hanssimaus\\hanswurst\\kaese'), 'false');
+  $t->ok($p = sfFilebasePluginUtil::realpath('c:\\hanssimaus\\hanswurst\\..\\kaese'), $p);
+  $t->ok($p = sfFilebasePluginUtil::realpath('c:\\hanssimaus\\hanswurst\\würstelchen\\..\\..\\..\\kaese\\..'), $p);
+  $t->ok($p = sfFilebasePluginUtil::realpath('/hanswurst/kaese/../'), $p);
+  $t->ok($p = sfFilebasePluginUtil::realpath('hanswurst/kaese/../naseweis'), $p);
+  $t->ok($p = sfFilebasePluginUtil::realpath('hanswurst/../kaese/../naseweis'), $p);
+
+  # DO THE DOCTRINE BEHAVIOUR TEST. USE THIS ONLY IF THE MODEL IS GENERATED
+  if(class_exists('testerer'))
+  {
+    $t->diag('Try something with the Doctrine-Behaviour');
+    $f_test = new testerer();
+    $f_test->setFile($i2);
+    $f_test->save();
+
+    $f_test->getFile();
+  }
 
   $t->diag('Do something with the file permissions. Beware of os-dependent test cases.');
   # TRY TO CHANGE OWNER

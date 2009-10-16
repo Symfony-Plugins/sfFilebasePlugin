@@ -21,9 +21,9 @@ class sfFilebasePlugin extends sfFilebasePluginDirectory
   /**
    * FileInfo Object of Cache Directory
    *
-   * @var sfFilebasePluginFile $cacheDirectory
+   * @var sfFilebasePluginCache: The file cache
    */
-  protected $cacheDirectory;
+  protected $cache;
 
   /**
    * @var sfFilebasePluginUploadedFilesManager $uploadedFilesManager
@@ -76,11 +76,7 @@ class sfFilebasePlugin extends sfFilebasePluginDirectory
     {
       $path_name = sfConfig::get('app_sf_filebase_plugin_path_name', sfConfig::get('sf_upload_dir'));
     }
-    if($cache_directory === null)
-    {
-      $cache_directory = sfConfig::get('app_sf_filebase_plugin_cache_directory', $path_name . '/.' . md5(get_class()));
-    }
-
+    
     $path_name === null && $path_name = sfConfig::get('sf_upload_dir', null);
 
     parent::__construct($path_name, $this);
@@ -101,7 +97,7 @@ class sfFilebasePlugin extends sfFilebasePluginDirectory
     if(!$this->isWritable())   throw new sfFilebasePluginException(sprintf('Filebase base directory %s is read or write protected', $this->getPathname()));
     
     // Initialize cache.
-    $this->initCache($cache_directory);
+    $this->cache = new sfFilebasePluginCache($this);
     $this->uploadedFilesManager = new sfFilebasePluginUploadedFilesManager($this);
   }
 
@@ -126,13 +122,14 @@ class sfFilebasePlugin extends sfFilebasePluginDirectory
 
   /**
    * Copies a file to the filebase's cache
-   * 
+   *
+   * @see sfFilebasePluginCache::addFile()
    * @param sfFilebasePluginFile $file
    * @return sfFilebasePluginFile $file
    */
   public function cacheFile(sfFilebasePluginFile $file)
   {
-    return $file->copy($this->getCacheDirectory() . '/' . $file->getHash(), true);
+    return $this->cache->addFile($file);
   }
 
   /**
@@ -147,53 +144,23 @@ class sfFilebasePlugin extends sfFilebasePluginDirectory
   }
 
   /**
-   * Checks if CacheDirectory exists, if
-   * not, then create it.
-   *
-   * @param $cache_directory Path to cache_dir.
-   * @throws sfFilebasePluginException
-   * @return sfFilebasePluginFile $cache_directory
-   */
-  protected function initCache($cache_directory)
-  {
-    $this->cacheDirectory = $this->getFilebaseFile($cache_directory);
-
-    if(!$this->cacheDirectory->fileExists())
-    {
-      $this->cacheDirectory = self::mkDir($this->cacheDirectory);
-    }
-    return $this->cacheDirectory;
-  }
-
-  /**
    * Returns cache directory for this filebase.
-   * 
+   * This is only a proxy for sfFilebasePluginCache::getCacheDirectory()
    * @return sfFilebasePluginDirectory $cacheDirectory
    */
   public function getCacheDirectory()
   {
-    return $this->cacheDirectory;
+    return $this->cache->getCacheDirectory();
   }
 
   /**
    * Clears the cache directory
+   * @see sfFilebasePluginCache::clear()
    * @return boolean true if everything went fine
    */
   public function clearCache()
   {
-    try
-    {
-      foreach($this->cacheDirectory AS $file)
-      {
-        $file->delete(true);
-      }
-      return true;
-    }
-    catch (Exception $e)
-    {
-      throw $e;
-    }
-    return false;
+    return $this->cache->clear();
   }
 
   /**
