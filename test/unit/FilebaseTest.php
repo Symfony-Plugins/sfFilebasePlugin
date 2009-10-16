@@ -6,7 +6,7 @@
 include(dirname(__FILE__).'/../bootstrap/unit.php');
 try
 {
-  $t = new lime_test(82, new lime_output_color());
+  $t = new lime_test(85, new lime_output_color());
   $t->diag('Ok, let\'s take a look... These tests are as incomplete as tests can be.');
   $t->diag('Any exeptions thrown during testrun may cause in file-permission issues. After a test-run failed, please manually clean up the standard-filebase-directory unter sfConfig::get(sf_upload_dir) and run php ./symfony fix-perms task as a system administrator.');
 
@@ -128,10 +128,18 @@ try
   {
     $t->diag('Try something with the Doctrine-Behaviour');
     $f_test = new testerer();
-    $f_test->setFile($i2);
-    $f_test->save();
+    $t->isa_ok($f_test->setFile($i2), 'Doctrine_Template_File', 'Bound file to doctrine record object');
 
-    $f_test->getFile();
+    try {
+      $f_test->save();
+      $t->pass('Saved doctrine record');
+    }
+    catch(Exception $e){
+      $t->fail('Failed saving doctrine record');
+    }
+    $t->isa_ok($f_test->getFile(), 'sfFilebasePluginImage', 'Doctrine_Template_File::getFile() returns sfFilebasePluginFile');
+
+    $f_test['path_name'] = $d3;
   }
 
   $t->diag('Do something with the file permissions. Beware of os-dependent test cases.');
@@ -186,6 +194,7 @@ try
   $t->ok($i2->delete(), 'Deleted the previously copied image');
   $t->ok($f->clearCache(), 'Cleared the cache');
   $d4->delete(true);
+  Doctrine::getTable('testerer')->findAll()->delete();
 }
 catch(Exception $e)
 {

@@ -73,8 +73,42 @@ class Doctrine_Template_File extends Doctrine_Template
   public function setFile($file)
   {
     $file = $this->filebase->getFilebaseFile($file);
-    echo $file->getFilebase();
     $this->_invoker[$this->getOption('name')] = $file->getRelativePathFromFilebaseDirectory();
     return $this;
+  }
+
+  /**
+   * set
+   *
+   * @param mixed $name
+   * @param mixed $value
+   * @return void
+   */
+  public function set($name, $value)
+  {
+    if($name == $this->getOption('name'))
+    {
+      $this->setFile($value);
+    }
+    else
+    {
+      $this->_invoker->set($name, $value);
+    }
+  }
+
+  /**
+   * set
+   *
+   * @param mixed $name
+   * @param mixed $value
+   * @return void
+   */
+  public function get($name)
+  {
+    if($name == $this->getOption('name'))
+    {
+      return $this->getFile();
+    }
+    return $this->_invoker->get($name);
   }
 }
