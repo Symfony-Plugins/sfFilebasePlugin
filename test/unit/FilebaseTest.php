@@ -140,13 +140,13 @@ try
     $t->isa_ok($f_test->getFile(), 'sfFilebasePluginImage', 'Doctrine_Template_File::getFile() returns sfFilebasePluginFile');
 
     $f_test->setFile($d3);
+    
     $f_test->save();
+    $t->isa_ok($f_test->getFile(), 'sfFilebasePluginDirectory', 'Set and get a sfFilebasePluginDirectory.');
 
     $t->diag('Try storing a non existent file in database');
     $f_test->setFile('hasdgsasgd/sadgdg');
     $t->ok(!$f_test->isValid(), 'Validation of model failed' );
-
-    $t->isa_ok($f_test->getFile(), 'sfFilebasePluginDirectory', 'Set and get a sfFilebasePluginDirectory by standard accessors');
   }
 
   $t->diag('Do something with the file permissions. Beware of os-dependent test cases.');
