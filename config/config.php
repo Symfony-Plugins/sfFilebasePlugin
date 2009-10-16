@@ -11,4 +11,5 @@
  * @copyright 2007-2009 Johannes Heinen <johannes.heinen@gmail.com>
  */
 $path_name = sfConfig::get('app_sf_filebase_plugin_path_name', sfConfig::get('sf_upload_dir'));
-sfConfig::set('sf_public_filebase', new sfFilebasePlugin($path_name));
+sfConfig::set('sf_public_filebase', $f = new sfFilebasePlugin($path_name));
+sfFilebasePlugin::setDefaultFilebase($f);
