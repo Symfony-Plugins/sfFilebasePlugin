@@ -76,6 +76,15 @@ class sfFilebasePluginFile extends SplFileInfo
   }
 
   /**
+   * Caches this file by copying it into
+   * the cache directory
+   */
+  public function cache()
+  {
+    return $this->filebase->cacheFile($this);
+  }
+
+  /**
    * Returns true if a file is hidden or null
    * if that cannot be determined (e.g. unter
    * windows).
@@ -282,9 +291,31 @@ class sfFilebasePluginFile extends SplFileInfo
    * @throws sfFilebasePluginException
    * @return sfFilebasePluginFile $file
    */
-  public function chmod($perms = 0755)
+  public function chmod($perms = 0755, $recursive = false)
   {
-    return $this->filebase->chmodFile($this, $perms);
+    return $this->filebase->chmodFile($this, $perms, $recursive);
+  }
+
+  /**
+   * Changes the ownership of a file
+   * @param string $user
+   * @throws sfFilebasePluginException
+   * @return sfFilebasePluginFile $file
+   */
+  public function chown($user, $recursive = false)
+  {
+    return $this->filebase->chownFile($this, $user, $recursive);
+  }
+
+  /**
+   * Changes the ownership of a file
+   * @param string $user
+   * @throws sfFilebasePluginException
+   * @return sfFilebasePluginFile $file
+   */
+  public function chgrp($group, $recursive = false)
+  {
+    return $this->filebase->chgrpFile($this, $group, $recursive);
   }
 
   /**
@@ -337,6 +368,16 @@ class sfFilebasePluginFile extends SplFileInfo
   {
     if(!$this->getFilebase()->isInFilebase($this)) throw new sfFilebasePluginException(sprintf('Path %s does not lie within FilebaseDirectory', $this->getPathname()));
     return ltrim(preg_replace('#^'.sfFilebasePluginUtil::unifySlashes($this->getFilebase()->getPathname()).'#','', sfFilebasePluginUtil::unifySlashes($this->getPathname()),1),'/\\');
+  }
+
+  /**
+   * Returns true if this file lies within the
+   * filebase's directory.
+   * @return boolean
+   */
+  public function getIsInFilebase()
+  {
+    return $this->filebase->isInFilebase($this);
   }
 
    /**
@@ -425,7 +466,7 @@ class sfFilebasePluginFile extends SplFileInfo
       
       // Can image be processed by filebase, either throw GD or throug imagick?
       // Then return instance of sfFilebasePluginImage...
-      elseif($this->filebase->getIsSupportedImage($filename))
+      elseif($this->filebase->getIsImage($filename))
       {
         $filename = new sfFilebasePluginImage($filename->getPathname(), $this->filebase);
       }
