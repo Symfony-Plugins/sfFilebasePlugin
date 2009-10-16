@@ -6,7 +6,7 @@
 include(dirname(__FILE__).'/../bootstrap/unit.php');
 try
 {
-  $t = new lime_test(85, new lime_output_color());
+  $t = new lime_test(87, new lime_output_color());
   $t->diag('Ok, let\'s take a look... These tests are as incomplete as tests can be.');
   $t->diag('Any exeptions thrown during testrun may cause in file-permission issues. After a test-run failed, please manually clean up the standard-filebase-directory unter sfConfig::get(sf_upload_dir) and run php ./symfony fix-perms task as a system administrator.');
 
@@ -139,7 +139,14 @@ try
     }
     $t->isa_ok($f_test->getFile(), 'sfFilebasePluginImage', 'Doctrine_Template_File::getFile() returns sfFilebasePluginFile');
 
-    $f_test['path_name'] = $d3;
+    $f_test->setFile($d3);
+    $f_test->save();
+
+    $t->diag('Try storing a non existent file in database');
+    $f_test->setFile('hasdgsasgd/sadgdg');
+    $t->ok(!$f_test->isValid(), 'Validation of model failed' );
+
+    $t->isa_ok($f_test->getFile(), 'sfFilebasePluginDirectory', 'Set and get a sfFilebasePluginDirectory by standard accessors');
   }
 
   $t->diag('Do something with the file permissions. Beware of os-dependent test cases.');
