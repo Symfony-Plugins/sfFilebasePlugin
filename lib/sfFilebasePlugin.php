@@ -685,7 +685,7 @@ class sfFilebasePlugin extends sfFilebasePluginDirectory
   }
 
   /**
-   * Returns true if sfFilebasePluginFile is an
+   * Returns true if sfFilebasePluginFile is a web
    * image file. Used to factory
    * a sfFilebasePluginImage instance by sfFilebasePlugin::
    * getFilebaseFile()
@@ -754,5 +754,21 @@ class sfFilebasePlugin extends sfFilebasePluginDirectory
       return true;
     }
     return false;
+  }
+
+  /**
+   * Returns the file's extension.
+   * @param sfFilebasePluginFile | string $file extension
+   * @return string $extension
+   */
+  public function getFileExtension($file)
+  {
+    $file = new sfFilebasePluginFile((string)$file, $this);
+    $extension = pathinfo($file->getFilename(),PATHINFO_EXTENSION);
+    if(!empty($extension))
+    {
+      return $extension;
+    }
+    return null;
   }
 }

@@ -19,11 +19,9 @@ class Doctrine_Template_File extends Doctrine_Template
   protected $_options = array(
     'name' =>  'pathname',
     'alias' =>  null,
-    'expression' =>  false,
     'options' =>  array('notnull' => true),
     'filebaseDirectory' => null,
     'checkExistence' => true
-
   );
 
   /**

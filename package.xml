@@ -10,10 +10,10 @@
     <email>johannes.heinen@gmail.com</email>
     <active>yes</active>
   </lead>
-  <date>2009-10-16</date>
+  <date>2009-10-22</date>
   <version>
-    <release>1.0.0</release>
-    <api>1.0.0</api>
+    <release>1.0.1</release>
+    <api>1.0.1</api>
   </version>
   <stability>
     <release>stable</release>
@@ -487,7 +487,7 @@
   <dependencies>
     <required>
       <php>
-        <min>5.1.7</min>
+        <min>5.2.3</min>
       </php>
       <pearinstaller>
         <min>1.4.1</min>
@@ -503,30 +503,52 @@
         <name>sfWidgetFormInputSWFUploadPlugin</name>
         <channel>plugins.symfony-project.org</channel>
         <min>0.9.1</min>
+        <max>1.0.0</max>
+        <exclude>1.0.0</exclude>
       </package>
       <package>
         <name>sfWidgetFormTreePlugin</name>
         <channel>plugins.symfony-project.org</channel>
         <min>1.0.3</min>
-      </package>
-      <package>
-        <name>sfImageTransformPlugin</name>
-        <channel>plugins.symfony-project.org</channel>
-        <min>1.2.0</min>
+        <max>2.0.0</max>
+        <exclude>2.0.0</exclude>
       </package>
     </required>
     <optional>
       <package>
+        <name>sfImageTransformPlugin</name>
+        <channel>pear.symfony-project.org</channel>
+        <min>1.2.0</min>
+        <max>2.0.0</max>
+        <exclude>2.0.0</exclude>
+      </package>
+      <package>
         <name>Doctrine</name>
         <channel>pear.phpdoctrine.org</channel>
         <min>1.1.0</min>
-        <exclude>1.0.0</exclude>
+        <max>1.2.0</max>
+        <exclude>1.2.0</exclude>
       </package>
     </optional>
   </dependencies>
   <phprelease>
   </phprelease>
   <changelog>
+    <release>
+      <version>
+        <release>1.0.1</release>
+        <api>1.0.1</api>
+      </version>
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+      <license>MIT license</license>
+      <date>2009-10-22</date>
+      <notes>
+      * improve automatic package install by defining required dependencies
+      </notes>
+    </release>
     <release>
       <version>
         <release>1.0.0</release>
