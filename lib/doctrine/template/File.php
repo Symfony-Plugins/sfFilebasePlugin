@@ -37,7 +37,7 @@ class Doctrine_Template_File extends Doctrine_Template
     if(!$this->filebase->fileExists())
       throw new sfFilebasePluginException('The base directory does not exist.');
   }
-  
+
   /**
    * Set table definition for Timestampable behavior
    *
@@ -60,7 +60,11 @@ class Doctrine_Template_File extends Doctrine_Template
    */
   public function getFile()
   {
-    return $this->filebase->getFilebaseFile($this->_invoker[$this->getOption('name')]);
+    if(strlen($this->_invoker[$this->getOption('name')])>0)
+    {
+      return $this->filebase->getFilebaseFile($this->_invoker[$this->getOption('name')]);
+    }
+    return null;
   }
 
   /**
