@@ -207,7 +207,7 @@ class sfFilebasePluginUploadedFilesManager
    * @throws sfFilebasePluginException
    * @return sfFilebasePluginFile $moved_file
    */
-  public function moveUploadedFile(sfFilebasePluginUploadedFile $tmp_file, $destination_directory, $allow_overwrite = true, $chmod=0777, array $inclusion_rules = array(), $exclusion_rules = array(), $file_name = null)
+  public function moveUploadedFile(sfFilebasePluginUploadedFile $tmp_file, $destination_directory, $allow_overwrite = true, $chmod=null, array $inclusion_rules = array(), $exclusion_rules = array(), $file_name = null)
   {
     $destination_directory = $this->filebase->getFilebaseFile($destination_directory);
 
@@ -286,7 +286,8 @@ class sfFilebasePluginUploadedFilesManager
       if(!$destination_directory->isWritable()) throw new sfFilebasePluginException(sprintf('Destination directory %s is write protected', $destination_directory->getPathname()));
     }
     if(!@move_uploaded_file($tmp_file->getTempName(), $destination->getPathname()))  throw new sfFilebasePluginException (sprintf('Error while moving uploaded file %s', $tmp_file->getOriginalName()));
-    $destination->chmod($chmod);
+    if($chmod !== null)
+      $destination->chmod($chmod);
     return $destination;
   }
 }

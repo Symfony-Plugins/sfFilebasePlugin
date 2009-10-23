@@ -140,7 +140,7 @@ class sfFilebasePluginUploadedFile extends sfValidatedFile
    * @param array       $exclusion_rules: Rules defining files to be not allowed
    * @param string      $file_name: If given, uploaded file will be renamed after moving.
    */
-  public function moveUploadedFile($destination_directory = null, $overwrite = true, $chmod=0777, array $inclusion_rules = array(), array $exclusion_rules = array(), $file_name = null)
+  public function moveUploadedFile($destination_directory = null, $overwrite = true, $chmod = null, array $inclusion_rules = array(), array $exclusion_rules = array(), $file_name = null)
   {
     $destination_directory = $destination_directory === null ? $this->getPath() : $destination_directory;
     try

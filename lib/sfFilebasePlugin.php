@@ -679,7 +679,7 @@ class sfFilebasePlugin extends sfFilebasePluginDirectory
    * @throws sfFilebasePluginException
    * @return sfFilebasePluginFile $moved_file
    */
-  public function moveUploadedFile(sfFilebasePluginUploadedFile $tmp_file, $destination_directory, $override = true, $chmod=0777, array $inclusion_rules = array(), $exclusion_rules = array(), $file_name = null)
+  public function moveUploadedFile(sfFilebasePluginUploadedFile $tmp_file, $destination_directory, $override = true, $chmod=null, array $inclusion_rules = array(), $exclusion_rules = array(), $file_name = null)
   {
     return $this->uploadedFilesManager->moveUploadedFile($tmp_file, $destination_directory, $override, $chmod, $inclusion_rules, $exclusion_rules, $file_name);
   }
