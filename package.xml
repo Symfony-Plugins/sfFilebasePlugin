@@ -10,10 +10,10 @@
     <email>johannes.heinen@gmail.com</email>
     <active>yes</active>
   </lead>
-  <date>2009-10-22</date>
+  <date>2009-10-23</date>
   <version>
-    <release>1.0.1</release>
-    <api>1.0.1</api>
+    <release>1.0.3</release>
+    <api>1.0.3</api>
   </version>
   <stability>
     <release>stable</release>
@@ -534,6 +534,37 @@
   <phprelease>
   </phprelease>
   <changelog>
+    <release>
+      <version>
+        <release>1.0.3</release>
+        <api>1.0.3</api>
+      </version>
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+      <license>MIT license</license>
+      <date>2009-10-23</date>
+      <notes>
+      * Removed old GFX-Classes from core_compile.yml
+      * Fixed a bug in saveAs Method the pointed to the wrong image reference
+      </notes>
+    </release>
+    <release>
+      <version>
+        <release>1.0.2</release>
+        <api>1.0.2</api>
+      </version>
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+      <license>MIT license</license>
+      <date>2009-10-22</date>
+      <notes>
+      * improve doctrine file behaviour
+      </notes>
+    </release>
     <release>
       <version>
         <release>1.0.1</release>
