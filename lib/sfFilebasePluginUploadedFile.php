@@ -136,11 +136,11 @@ class sfFilebasePluginUploadedFile extends sfValidatedFile
    *
    * @param mixed       sfFilebasePluginFile | string $destination_directory: Target directory to save the uploaded file
    * @param boolean     $overwrite: True if existing files should be overwritten
+   * @param string      $file_name: If given, uploaded file will be renamed after moving.
    * @param array       $inclusion_rules: Rules defining files to be explicetly allowed
    * @param array       $exclusion_rules: Rules defining files to be not allowed
-   * @param string      $file_name: If given, uploaded file will be renamed after moving.
    */
-  public function moveUploadedFile($destination_directory = null, $overwrite = true, $chmod = null, array $inclusion_rules = array(), array $exclusion_rules = array(), $file_name = null)
+  public function moveUploadedFile($destination_directory = null, $file_name = null, $overwrite = true, $chmod = null, array $inclusion_rules = array(), array $exclusion_rules = array())
   {
     $destination_directory = $destination_directory === null ? $this->getPath() : $destination_directory;
     try

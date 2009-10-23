@@ -12,8 +12,8 @@
   </lead>
   <date>2009-10-23</date>
   <version>
-    <release>1.0.3</release>
-    <api>1.0.3</api>
+    <release>1.0.4</release>
+    <api>1.0.4</api>
   </version>
   <stability>
     <release>stable</release>
@@ -534,6 +534,21 @@
   <phprelease>
   </phprelease>
   <changelog>
+    <release>
+      <version>
+        <release>1.0.4</release>
+        <api>1.0.4</api>
+      </version>
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+      <license>MIT license</license>
+      <date>2009-10-23</date>
+      <notes>
+      * Improved file upload handling
+      </notes>
+    </release>
     <release>
       <version>
         <release>1.0.3</release>

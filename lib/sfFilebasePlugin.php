@@ -672,16 +672,16 @@ class sfFilebasePlugin extends sfFilebasePluginDirectory
    *
    * @param mixed $tmp_file
    * @param mixed $destination_directory: The directory the file will be moved in.
+   * @param string $file_name: If given, file will be renamed when moving.
    * @param boolean $override True if existing files should be overwritten
    * @param array $inclusion_rules
    * @param array $exclusion_rules
-   * @param string $file_name: If given, file will be renamed when moving.
    * @throws sfFilebasePluginException
    * @return sfFilebasePluginFile $moved_file
    */
-  public function moveUploadedFile(sfFilebasePluginUploadedFile $tmp_file, $destination_directory, $override = true, $chmod=null, array $inclusion_rules = array(), $exclusion_rules = array(), $file_name = null)
+  public function moveUploadedFile(sfFilebasePluginUploadedFile $tmp_file, $destination_directory, $file_name = null, $override = true, $chmod=null, array $inclusion_rules = array(), $exclusion_rules = array())
   {
-    return $this->uploadedFilesManager->moveUploadedFile($tmp_file, $destination_directory, $override, $chmod, $inclusion_rules, $exclusion_rules, $file_name);
+    return $this->uploadedFilesManager->moveUploadedFile($tmp_file, $file_name, $destination_directory, $override, $chmod, $inclusion_rules, $exclusion_rules);
   }
 
   /**
