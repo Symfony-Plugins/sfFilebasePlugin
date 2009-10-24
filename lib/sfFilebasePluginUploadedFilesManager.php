@@ -175,7 +175,7 @@ class sfFilebasePluginUploadedFilesManager
     {
       if($item instanceof sfFilebasePluginUploadedFile)
       {
-        $files [] = $this->moveUploadedFile($item, $destination_directory, $override, $chmod, $inclusion_rules, $exclusion_rules);
+        $files [] = $this->moveUploadedFile($item, $destination_directory, $item->getOriginalName(), $override, $chmod, $inclusion_rules, $exclusion_rules);
       }
     }
     return $files;
@@ -207,7 +207,7 @@ class sfFilebasePluginUploadedFilesManager
    * @throws sfFilebasePluginException
    * @return sfFilebasePluginFile $moved_file
    */
-  public function moveUploadedFile(sfFilebasePluginUploadedFile $tmp_file, $destination_directory, $allow_overwrite = true, $chmod=null, array $inclusion_rules = array(), $exclusion_rules = array(), $file_name = null)
+  public function moveUploadedFile(sfFilebasePluginUploadedFile $tmp_file, $destination_directory, $file_name = null, $allow_overwrite = true, $chmod=null, array $inclusion_rules = array(), $exclusion_rules = array())
   {
     $destination_directory = $this->filebase->getFilebaseFile($destination_directory);
 

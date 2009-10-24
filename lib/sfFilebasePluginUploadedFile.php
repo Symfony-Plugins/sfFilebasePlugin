@@ -145,7 +145,7 @@ class sfFilebasePluginUploadedFile extends sfValidatedFile
     $destination_directory = $destination_directory === null ? $this->getPath() : $destination_directory;
     try
     {
-      $file = sfFilebasePlugin::getInstance()->moveUploadedFile($this, $destination_directory, $overwrite, $chmod, $inclusion_rules, $exclusion_rules, $file_name);
+      $file = sfFilebasePlugin::getInstance()->moveUploadedFile($this, $destination_directory, $file_name, $overwrite, $chmod, $inclusion_rules, $exclusion_rules);
       if($file_name === null)
       {
         $this->savedName = $this->getOriginalName();

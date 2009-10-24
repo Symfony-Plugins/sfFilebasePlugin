@@ -681,7 +681,7 @@ class sfFilebasePlugin extends sfFilebasePluginDirectory
    */
   public function moveUploadedFile(sfFilebasePluginUploadedFile $tmp_file, $destination_directory, $file_name = null, $override = true, $chmod=null, array $inclusion_rules = array(), $exclusion_rules = array())
   {
-    return $this->uploadedFilesManager->moveUploadedFile($tmp_file, $file_name, $destination_directory, $override, $chmod, $inclusion_rules, $exclusion_rules);
+    return $this->uploadedFilesManager->moveUploadedFile($tmp_file, $destination_directory, $file_name, $override, $chmod, $inclusion_rules, $exclusion_rules);
   }
 
   /**
