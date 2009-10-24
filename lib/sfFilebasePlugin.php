@@ -613,7 +613,7 @@ class sfFilebasePlugin extends sfFilebasePluginDirectory
    * Returns the upload file manager for this
    * instance of filebase
    *
-   * @return sfFilebasePluginUploadedFilesManager
+   * @return sfFilebasePluginUploadedFilesManager $manager
    */
   public function getUploadedFilesManager()
   {

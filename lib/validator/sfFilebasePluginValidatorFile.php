@@ -24,6 +24,36 @@
 class sfFilebasePluginValidatorFile extends sfValidatorFile
 {
   /**
+   * The file upload manager as provided by sfFilebasePlugin
+   * @var sfFilebasePluginUploadedFilesManager
+   */
+  protected $manager;
+
+  /**
+   * Constructor.
+   *
+   * Available options:
+   *
+   *  * required:    true if the value is required, false otherwise (default to true)
+   *  * trim:        true if the value must be trimmed, false otherwise (default to false)
+   *  * empty_value: empty value when value is not required
+   *
+   * Available error codes:
+   *
+   *  * required
+   *  * invalid
+   *
+   * @param array $options   An array of options
+   * @param array $messages  An array of error messages
+   * @param sfFilebasePluginUploadedFilesManager $manager
+   */
+  public function __construct($options = array(), $messages = array(), sfFilebasePluginUploadedFilesManager $manager)
+  {
+    $this->manager = $manager;
+    parent::__construct($options, $messages);
+  }
+
+  /**
    * Configures the current validator.
    *
    * The api for sfFilebasePluginValidatorFile is derived from sfValidatorFile.
@@ -71,6 +101,7 @@ class sfFilebasePluginValidatorFile extends sfValidatorFile
   protected function configure($options = array(), $messages = array())
   {
     parent::configure($options, $messages);
+
     unset($this->options['mime_type_guessers']);
     $this->addOption('mime_categories', array(
       'web_images' => sfFilebasePluginUtil::$WEB_IMAGES)
@@ -268,5 +299,16 @@ class sfFilebasePluginValidatorFile extends sfValidatorFile
     { 
       return sfFilebasePluginUploadedFilesManager::isUploadedFile($value);
     }
+  }
+
+  /**
+   * Returns the file upload manager as provided by
+   * sfFilebasePlugin. Retrieve the current filebase by
+   * using $this->getManager()->getFilebase();
+   * @return sfFilebasePluginUploadedFilesManager $manager
+   */
+  public function getManager()
+  {
+    return $this->manager;
   }
 }
