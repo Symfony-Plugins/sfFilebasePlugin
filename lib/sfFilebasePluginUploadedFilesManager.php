@@ -68,7 +68,7 @@ class sfFilebasePluginUploadedFilesManager
 
   public static function produceUploadedFile(array $values, $path = null)
   {
-    return new sfFilebasePluginUploadedFile($values['name'], $values['type'], $values['tmp_name'], $values['size'], $path, $values['error']);
+    return new sfFilebasePluginUploadedFile($values['name'], $values['type'], $values['tmp_name'], $values['size'], $path, $values['error'], $this);
   }
 
   /**
@@ -148,7 +148,7 @@ class sfFilebasePluginUploadedFilesManager
       }
       else
       {
-        $files[$i] = new sfFilebasePluginUploadedFile($name, $types[$i], $tmp_names[$i], $sizes[$i], null, $errors[$i]);
+        $files[$i] = new sfFilebasePluginUploadedFile($name, $types[$i], $tmp_names[$i], $sizes[$i], null, $errors[$i], $this);
       }
     }
     return $files;
@@ -289,5 +289,15 @@ class sfFilebasePluginUploadedFilesManager
     if($chmod !== null)
       $destination->chmod($chmod);
     return $destination;
+  }
+
+  /**
+   * Returns the filebase accociated with this
+   * manager.
+   * @return sfFilebasePlugin
+   */
+  public function getFilebase()
+  {
+    return $this->filebase;
   }
 }
