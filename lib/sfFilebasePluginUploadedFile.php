@@ -81,7 +81,7 @@ class sfFilebasePluginUploadedFile extends sfValidatedFile
     
     if (empty($size) || empty($type))
     {
-      $tmp_file = sfFilebasePlugin::getInstance()->getFilebaseFile($tempName);
+      $tmp_file = $this->manager->getFilebase()->getFilebaseFile($tempName);
       if(empty($size))
       {
         $size = $tmp_file->getSize();
@@ -104,7 +104,7 @@ class sfFilebasePluginUploadedFile extends sfValidatedFile
    */
   public function getExtension($default = '')
   {
-    $f = sfFilebasePlugin::getInstance()->getFilebaseFile($this->getTempName());
+    $f = $this->manager->getFilebase()->getFilebaseFile($this->getTempName());
     return
       ($mime = sfFilebasePluginUtil::getMimeType($f, null, ltrim($this->getOriginalExtension(), '.'))) === null ?
       $default :
@@ -120,7 +120,7 @@ class sfFilebasePluginUploadedFile extends sfValidatedFile
    */
   public function getOriginalExtension($default = '')
   {
-    $f = sfFilebasePlugin::getInstance()->getFilebaseFile($this->getOriginalName());
+    $f = $this->manager->getFilebase()->getFilebaseFile($this->getOriginalName());
     $ext = $f->getExtension();
     return $ext ? '.'.$ext : $default;
   }
@@ -155,7 +155,7 @@ class sfFilebasePluginUploadedFile extends sfValidatedFile
     $destination_directory = $destination_directory === null ? $this->getPath() : $destination_directory;
     try
     {
-      $file = sfFilebasePlugin::getInstance()->moveUploadedFile($this, $destination_directory, $file_name, $overwrite, $chmod, $inclusion_rules, $exclusion_rules);
+      $file = $this->manager->getFilebase()->moveUploadedFile($this, $destination_directory, $file_name, $overwrite, $chmod, $inclusion_rules, $exclusion_rules);
       if($file_name === null)
       {
         $this->savedName = $this->getOriginalName();
@@ -191,7 +191,6 @@ class sfFilebasePluginUploadedFile extends sfValidatedFile
    */
   public function save($file = null, $fileMode = null, $create = true, $dirMode = 0777)
   {
-    $filebase = null;
     if ($file === null)
     {
       if($this->originalName === null)
@@ -204,28 +203,10 @@ class sfFilebasePluginUploadedFile extends sfValidatedFile
       }
     }
 
-    // Check if $file contains an absolute pathname
-    if(sfFilebasePluginUtil::isAbsolutePathname($file))
-    {
-      $fb = sfFilebasePlugin::getInstance();
-      $f = $fb->getFilebaseFile($file);
-      $filebase = sfFilebasePlugin::getInstance($f->getPath(), null, $create);
-    }
-    else
-    {
-      if($this->path === null)
-      {
-        $filebase = sfFilebasePlugin::getInstance(null, null, $create);
-      }
-      else
-      {
-        $filebase = sfFilebasePlugin::getInstance($this->path, null, $create);
-      }
-    }
-    $file = $filebase->getFilebaseFile($file);
-    
+    $filebase = $this->manager->getFilebase();
+
     // copy the temp file to the destination file
-    $f = $filebase->copyFile($this->getTempName(), $file->getPathname());
+    $file = $filebase->getFilebaseFile($this->getTempName())->copy($file);
 
     // chmod our file
     if($fileMode !== null)

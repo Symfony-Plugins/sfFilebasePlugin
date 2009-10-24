@@ -107,30 +107,19 @@ class sfFilebasePluginValidatorFile extends sfValidatorFile
       'web_images' => sfFilebasePluginUtil::$WEB_IMAGES)
     );
     $this->addOption('allow_overwrite', false);
-    $this->addOption('filebase', sfFilebasePlugin::getInstance());
     $this->setOption('validated_file_class', 'sfFilebasePluginUploadedFile');
 
     $this->addMessage('file_exists', 'Destinated file %file% already exists.');
 
-    // cleanup filebase option
-    $fb = $this->getOption('filebase');
-    if(is_string($fb))
-    {
-      $this->setOption('filebase', sfFilebasePlugin::getInstance($fb));
-    }
-    elseif(!$this->getOption('filebase') instanceof sfFilebasePlugin)
-    {
-      $this->setOption('filebase', sfFilebasePlugin::getInstance());
-    }
-
+    $filebase = $this->getManager()->getFilebase();
     // Calculate target path
     if(!$this->getOption('path'))
     {
-      $this->setOption('path', $this->getOption('filebase')->getPathname());
+      $this->setOption('path', $filebase->getPathname());
     }
     else
     {
-      $this->setOption('path', $this->getOption('filebase')->getFilebaseFile($path)->getPathname());
+      $this->setOption('path', $filebase->getFilebaseFile($path)->getPathname());
     }
   }
 
@@ -153,7 +142,7 @@ class sfFilebasePluginValidatorFile extends sfValidatorFile
       {
         throw new sfValidatorError($this, 'invalid', array('value' => 'File array describes no valid uploaded file.'));
       }
-      $value = sfFilebasePluginUploadedFilesManager::produceUploadedFile($value, $this->getOption('path'));
+      $value = $this->manager->produceUploadedFile($value, $this->getOption('path'));
     }
 
     
@@ -236,9 +225,9 @@ class sfFilebasePluginValidatorFile extends sfValidatorFile
         throw new sfValidatorError($this, 'mime_types', array('mime_types' => $mimeTypes, 'mime_type' => $mimeType));
       }
     }
-
-    $path = $this->getOption('filebase')->getFilebaseFile($this->getOption('path'));
-    $path_name = $this->getOption('filebase')->getFilebaseFile($path->getPathname() . '/' . $value->getOriginalName());
+    $filebase = $this->manager->getFilebase();
+    $path = $filebase->getFilebaseFile($this->getOption('path'));
+    $path_name = $filebase->getFilebaseFile($path->getPathname() . '/' . $value->getOriginalName());
     if($path_name->fileExists())
     {
       if(!$this->getOption('allow_overwrite'))
@@ -281,7 +270,7 @@ class sfFilebasePluginValidatorFile extends sfValidatorFile
    */
   protected function getMimeType($file, $fallback)
   {
-    return $this->getOption('filebase')->getFilebaseFile($file)->getMimeType($fallback);
+    return $this->manager->getFilebase()->getFilebaseFile($file)->getMimeType($fallback);
   }
 
   /**

@@ -66,7 +66,7 @@ class sfFilebasePluginUploadedFilesManager
    * @return sfFilebasePluginUploadedFile
    */
 
-  public static function produceUploadedFile(array $values, $path = null)
+  public function produceUploadedFile(array $values, $path = null)
   {
     return new sfFilebasePluginUploadedFile($values['name'], $values['type'], $values['tmp_name'], $values['size'], $path, $values['error'], $this);
   }
