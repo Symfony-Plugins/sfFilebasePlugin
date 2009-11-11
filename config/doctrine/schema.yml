@@ -58,4 +58,4 @@ testerer:
   actAs:
     File:
       name: path_name
-      filebaseDirectory: <?php echo dirname(__FILE__)?>/../../test/assets
+      filebase: default

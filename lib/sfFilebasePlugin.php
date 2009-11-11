@@ -19,13 +19,6 @@
 class sfFilebasePlugin extends sfFilebasePluginDirectory
 {
   /**
-   * This is the default filebase, set by setDefaultFilebase()
-   * of at first instanciation.
-   * @var sfFilebasePlugin
-   */
-  protected static $defaultFilebase = null;
-
-  /**
    * FileInfo Object of Cache Directory
    *
    * @var sfFilebasePluginCache: The file cache
@@ -46,6 +39,14 @@ class sfFilebasePlugin extends sfFilebasePluginDirectory
    * @staticvar array sfFilebasePlugin $sf_filebase_plugins
    */
   static protected $instances = array();
+
+  /**
+   * Unique Identifier for each filebase instance,
+   * passed to constructor
+   *
+   * @var string
+   */
+  protected $id;
 
   /**
    * Constructor. Parameters are filebase-"root"-directory and cache-dir for
@@ -77,20 +78,10 @@ class sfFilebasePlugin extends sfFilebasePluginDirectory
    * @throws  sfFilebasePluginException
    * @param   string $mode
    */
-  function __construct($path_name, $cache_directory = null)
+  public function __construct($id, $path_name, $cache_directory = null)
   {
     parent::__construct($path_name, $this);
 
-    // SET THE DEFAULT FILEBASE IF NO FILEBASE EXISTS YET
-    try 
-    { 
-      sfFilebasePlugin::getDefaultFilebase();
-    }
-    catch (Exception $e)
-    {
-      sfFilebasePlugin::setDefaultFilebase($this);
-    }
-    
     if(!$this->fileExists())
     {
       // Should filebase dir be created by default?
@@ -112,56 +103,79 @@ class sfFilebasePlugin extends sfFilebasePluginDirectory
   }
 
   /**
-   * Sets the default filebase which is accessible via getInstance() without
-   * a path parameter.
-   * @param sfFilebasePlugin $filebase
-   */
-  public static function setDefaultFilebase(sfFilebasePlugin $filebase)
-  {
-    self::$defaultFilebase = $filebase;
-  }
-
-  /**
-   * Returns the default filebase if one was already instanciated
-   * @throws sfFilebasePluginException
-   * @return sfFilebasePlugin $filebase
-   */
-  public static function getDefaultFilebase()
-  {
-    if(self::$defaultFilebase === null)
-      throw new sfFilebasePluginException('An active filebase plugin instance does not yet exist.');
-    return self::$defaultFilebase;
-  }
-
-  /**
    * Static factory for filebases, can be used to access
    * filebase from everywhere without creating more than
    * one instance with the same properties.
-   * 
+   *
+   * @param string $id: unique identifier for a filebase
    * @param string $path_name
    * @param string $cache_directory
    * @return sfFilebasePlugin $filebase
    */
-  public static function getInstance($path_name = null, $cache_directory = null, $create = true)
+  public static function createFilebase($id, $path_name, $cache_directory = null, $create = true)
   {
-    if($path_name === null)
+    if(!array_key_exists($id, self::$instances))
     {
-      try
-      {
-        $filebase = self::getDefaultFilebase();
-        return $filebase;
-      }
-      catch(Exception $e)
-      {
-        throw new sfFilebasePluginException('You must specify a base directory for each filebase');
-      }
+      self::$instances[$id] = new sfFilebasePlugin($id, $path_name, $cache_directory, $create);
     }
-    $hashcookie = md5($path_name.$cache_directory);
-    if(!array_key_exists($hashcookie, self::$instances))
+
+    // SET DEFAULT FILEBASE
+    if(!isset(self::$instances['default']))
     {
-      self::$instances[$hashcookie] = new sfFilebasePlugin($path_name, $cache_directory);
+      self::$instances['default'] = self::$instances[$id];
     }
-    return self::$instances[$hashcookie];
+    return self::$instances[$id];
+  }
+
+  /**
+   * Sets or overrides the default filebase accessible by
+   * sfFilebasePlugin::getInstance() sine id argument
+   * @param sfFilebasePlugin $filebase
+   */
+  public static function setDefault(sfFilebasePlugin $filebase)
+  {
+    if(!array_key_exists($filebase->getId(), self::$instances))
+    {
+      throw new sfFilebasePluginException(sprintf('The filebase identified by %s was not properly registered.', $filebase->getId()));
+    }
+    self::$instances['default'] = $filebase;
+  }
+
+  /**
+   * Returns the default filebase, proxy for
+   * sfFilebasePlugin::getInstance();
+   * @throws sfFilebasePluginException If there is no default filebase
+   * @return sfFilebasePlugin
+   */
+  public static function getDefault()
+  {
+    return self::getInstance();
+  }
+
+  /**
+   * Returns an instance of sfFilebasePlugin identified
+   * by it's unique name
+   *
+   * @param string $id
+   * @return sfFilebasePlugin $filebase
+   */
+  public static function getInstance($id = 'default')
+  {
+    if(!array_key_exists($id, self::$instances))
+    {
+      throw new sfFilebasePluginException(sprintf('There is no filebase identified by %s', $id));
+    }
+    return self::$instances[$id];
+  }
+
+  /**
+   * Returns the unique identifier for this
+   * filebase
+   * @return string 
+   */
+  public function getId()
+  {
+    return $this->id;
   }
 
   /**

@@ -520,4 +520,14 @@ class sfFilebasePluginFile extends SplFileInfo
   {
     return $this->filebase->fileLiesWithin($this, $file);
   }
+
+  /**
+   * Returns a binary string representation
+   * of this file.
+   * @return string
+   */
+  public function getBinaryString()
+  {
+    return $this->openFile()->fileGetContents();
+  }
 }

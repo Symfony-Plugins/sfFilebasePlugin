@@ -206,7 +206,7 @@ class sfFilebasePluginUploadedFile extends sfValidatedFile
     $filebase = $this->manager->getFilebase();
 
     // copy the temp file to the destination file
-    $file = $filebase->getFilebaseFile($this->getTempName())->copy($file);
+    $file = $filebase->getFilebaseFile($this->getTempName())->copy($file, true);
 
     // chmod our file
     if($fileMode !== null)

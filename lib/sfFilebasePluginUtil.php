@@ -31,7 +31,7 @@ class sfFilebasePluginUtil
    * @var array $extensions
    * @staticvar array $extensions
    */
-  private static $extensions = array(
+  public static $extensions = array(
     'application/andrew-inset' => 'ez',
     'application/appledouble' => 'base64',
     'application/applefile' => 'base64',

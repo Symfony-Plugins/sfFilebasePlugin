@@ -20,7 +20,7 @@ class Doctrine_Template_File extends Doctrine_Template
     'name' =>  'pathname',
     'alias' =>  null,
     'options' =>  array('notnull' => true),
-    'filebaseDirectory' => null,
+    'filebase' => null,
     'checkExistence' => true
   );
 
@@ -29,13 +29,13 @@ class Doctrine_Template_File extends Doctrine_Template
    */
   public function setUp()
   {
-    if(!$dir = $this->getOption('filebaseDirectory', null))
+    if(!$filebase_id = $this->getOption('filebase', null))
     {
-      throw new sfFilebasePluginException('You must specify a filebase directory to use this behaviour');
+      throw new sfFilebasePluginException('You must specify a filebase to use this behaviour');
     }
-    $this->filebase = sfFilebasePlugin::getInstance($dir);
+    $this->filebase = sfFilebasePlugin::getInstance($filebase_id);
     if(!$this->filebase->fileExists())
-      throw new sfFilebasePluginException('The base directory does not exist.');
+      throw new sfFilebasePluginException('The filebase directory does not exist.');
   }
 
   /**
