@@ -58,4 +58,4 @@ testerer:
   actAs:
     File:
       name: path_name
-      filebase: default
+      filebase: test
