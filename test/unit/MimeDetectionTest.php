@@ -6,7 +6,7 @@
 include(dirname(__FILE__).'/../bootstrap/unit.php');
 
 $t = new lime_test(35, new lime_output_color());
-$t->isa_ok($f = new sfFilebasePlugin(realpath(dirname(__FILE__) . '/../assets')), 'sfFilebasePlugin', 'sfFilebasePlugin instanziated.');
+$t->isa_ok($f = sfFilebasePlugin::getInstance('test'), 'sfFilebasePlugin', 'sfFilebasePlugin instanziated.');
 
 $t->diag('Lets load some files');
 

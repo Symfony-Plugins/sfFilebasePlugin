@@ -10,8 +10,6 @@ try
   $t->diag('Ok, let\'s take a look... These tests are as incomplete as tests can be.');
   $t->diag('Any exeptions thrown during testrun may cause in file-permission issues. After a test-run failed, please manually clean up the standard-filebase-directory unter sfConfig::get(sf_upload_dir) and run php ./symfony fix-perms task as a system administrator.');
 
-  ###  INSTANCIATING FILEBASE
-  sfFilebasePlugin::createFilebase('test', realpath(dirname(__FILE__) . '/../assets'));
   $t->isa_ok($f = sfFilebasePlugin::getInstance('test'), 'sfFilebasePlugin', 'sfFilebasePlugin instanziated.');
   $t->ok($f->getCacheDirectory()->fileExists(), 'sfFilebasePlugin::getCacheDirectory()::fileExists() is true');
   
