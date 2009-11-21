@@ -10,7 +10,7 @@
  * @license   MIT license
  * @copyright 2007-2009 Johannes Heinen <johannes.heinen@gmail.com>
  */
-foreach(sfConfig::get('app_sf_filebase_plugin_filebases', array('uploads' => array('pathname' => sfConfig::get('sf_upload_dir')))) AS $id => $params)
+foreach(sfConfig::get('app_sf_filebase_plugin_filebases', array('uploads' => array('path_name' => sfConfig::get('sf_upload_dir')))) AS $id => $params)
 {
   $pathname = isset($params['path_name']) ? $params['path_name'] : null;
   $cache_directory = isset($params['cache_directory']) ? $params['cache_directory'] : null;
