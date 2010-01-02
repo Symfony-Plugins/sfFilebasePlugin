@@ -50,7 +50,7 @@
       </li>
     <?php endif?>
     <?php if($parent->getNode()->hasChildren()):?>
-      <?php foreach($parent->getNode()->getChildren() AS $node):?>
+      <?php foreach($sf_data->getRaw('parent')->getNode()->getChildren() AS $node):?>
         <?php if($node instanceof sfFilebaseDirectory):?>
           <li class="file file-directory">
             <div class="contents">
@@ -75,11 +75,9 @@
                   <?php if($file instanceof sfFilebasePluginImage):?>
                     <img src="<?php echo url_for('sf_filebase_display_image', array('file'=>$node->getId(), 'width'=>100, 'height'=>100))?>" alt="<?php echo $file->getFilename()?>"/>
                   <?php endif?>
-                  <div>
-                    <span class="file-title file-title-file">
-                      <?php echo wordwrap(truncate_text($node->getFilename(), 32), 16, '<br/>', true)?>
-                    </span>
-                  </div>
+                  <span class="file-title file-title-file">
+                    <?php echo wordwrap(truncate_text($node->getFilename(), 32), 16, '<br/>', true)?>
+                  </span>
                 </a>
                 <span class="file-controls">
                   <?php echo link_to('<span>'.__('Edit').'</span>', 'sf_filebase_file_edit', array('id'=>$node->getId()), array('class'=>'file-edit-link') )?>

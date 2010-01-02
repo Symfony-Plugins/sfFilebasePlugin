@@ -16,6 +16,8 @@ class sf_filebase_filedelivererComponents extends sfComponents
   
   public function executeDirectoryTree(sfWebRequest $request)
   {
+
+    $this->getResponse()->addJavascript('/sfFilebasePlugin/js/vendor/ext/ext-all.js');
     if($this->root === null)
     {
       $this->root = Doctrine::getTable('sfFilebaseDirectory')->getRootNode();
