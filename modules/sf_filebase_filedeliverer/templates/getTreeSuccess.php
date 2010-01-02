@@ -12,7 +12,7 @@
  */
 
 $rows = array();
-foreach ($root->getNode()->getChildren() AS $entry)
+foreach ($sf_data->getRaw('root')->getNode()->getChildren() AS $entry)
 {
   if($entry instanceof sfFilebaseDirectory)
   {
