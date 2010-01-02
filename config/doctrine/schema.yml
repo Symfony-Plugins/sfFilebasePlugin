@@ -52,10 +52,3 @@ sfFilebaseDirectory:
     type:     column_aggregation
     keyField: type
     keyValue: 2
-
-#testerer:
-#  tableName: tester
-#  actAs:
-#    File:
-#      name: path_name
-#      filebase: test
