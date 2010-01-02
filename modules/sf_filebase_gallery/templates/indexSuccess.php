@@ -49,7 +49,7 @@
         </div>
       </li>
     <?php endif?>
-    <?php if($parent->getNode()->hasChildren()):?>
+    <?php if($sf_data->getRaw('parent')->getNode()->hasChildren()):?>
       <?php foreach($sf_data->getRaw('parent')->getNode()->getChildren() AS $node):?>
         <?php if($node instanceof sfFilebaseDirectory):?>
           <li class="file file-directory">
