@@ -15,7 +15,14 @@ abstract class PluginsfFilebaseFile extends BasesfFilebaseFile
   public function preDelete($event)
   {
     $f = sfFilebasePlugin::getInstance();
-    $f->getFilebaseFile($this->getHash())->delete();
+    try
+    {
+      $f->getFilebaseFile($this->getHash())->delete();
+    }
+    catch(Exception $e)
+    {
+      sfContext::getInstance()->getLogger()->log($e, sfLogger::ERR);
+    }
   }
 
   public function getFile(sfFilebasePlugin $filebase = null)
