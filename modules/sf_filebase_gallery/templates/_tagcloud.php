@@ -15,5 +15,5 @@
 <?php use_stylesheet('/sfFilebasePlugin/css/cloud.css');?>
 <?php use_helper('tagcloud')?>
 <div class="tagcloud">
-  <?php  TagcloudHelper::showCloud($tags, $url);?>
+  <?php  TagcloudHelper::showCloud($tags->getRawValue(), $url);?>
 </div>

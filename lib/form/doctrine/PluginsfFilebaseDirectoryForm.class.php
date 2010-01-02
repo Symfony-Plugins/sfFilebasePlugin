@@ -110,7 +110,7 @@ abstract class PluginsfFilebaseDirectoryForm extends BasesfFilebaseDirectoryForm
     return $values;
   }
 
-  public function processValues($values = null)
+  public function processValues($values)
   {
     $values = parent::processValues($values);
 

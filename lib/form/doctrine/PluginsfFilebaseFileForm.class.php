@@ -11,7 +11,7 @@
  * @copyright 2007-2009 Johannes Heinen <johannes.heinen@gmail.com>
  */
 
-sfLoader::loadHelpers(array('Url'));
+sfProjectConfiguration::getActive()->loadHelpers(array('Url'));
 
 abstract class PluginsfFilebaseFileForm extends BasesfFilebaseFileForm
 {
@@ -135,7 +135,7 @@ abstract class PluginsfFilebaseFileForm extends BasesfFilebaseFileForm
     return $values;
   }
 
-  public function processValues($values = null)
+  public function processValues($values)
   {
     $values = parent::processValues($values);
     if(isset($values['tags']))
