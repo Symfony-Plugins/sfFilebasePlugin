@@ -32,7 +32,7 @@ class sf_filebase_fileGeneratorConfiguration extends BaseSf_filebase_fileGenerat
   {
     $class = $this->getFormClass();
 
-    $form = new $class(sfConfig::get('sf_public_filebase'), $object, $this->getFormOptions());
+    $form = new $class(sfConfig::get('sf_default_filebase'), $object, $this->getFormOptions());
 
     $this->fixFormFields($form);
 
