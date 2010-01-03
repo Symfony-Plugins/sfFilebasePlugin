@@ -13,8 +13,6 @@
 ?>
 <?php use_helper('I18N', 'Date') ?>
 <?php include_partial('sf_filebase_file/assets') ?>
-<?php include_stylesheets_for_form($form)?>
-<?php include_javascripts_for_form($form)?>
 <div id="sf_admin_container">
   <h2><?php echo __('New Sf filebase file', array(), 'messages') ?></h2>
 
