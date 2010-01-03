@@ -10,9 +10,9 @@
     <email>johannes.heinen@gmail.com</email>
     <active>yes</active>
   </lead>
-  <date>2010-01-02</date>
+  <date>2010-01-03</date>
   <version>
-    <release>1.0.5</release>
+    <release>1.0.6</release>
     <api>1.0.4</api>
   </version>
   <stability>
@@ -552,6 +552,22 @@
   <phprelease>
   </phprelease>
   <changelog>
+    <release>
+      <version>
+        <release>1.0.6</release>
+        <api>1.0.4</api>
+      </version>
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+      <license>MIT license</license>
+      <date>2010-01-03</date>
+      <notes>
+      * Fixed a small bug in sf_filebase_file template which forced the swfupload
+        javascripts to be loaded twice.
+      </notes>
+    </release>
     <release>
       <version>
         <release>1.0.5</release>
